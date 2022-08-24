@@ -15,5 +15,5 @@
     - [ ] demonstrar o tempo do round
     - [ ] quantidade de vitorias 
 - [ ] criar uma ia para o player inimigo
-- [ ] multy player online
+- [ ] multiplayer online
 
