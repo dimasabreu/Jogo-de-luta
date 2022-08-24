@@ -2,6 +2,7 @@
 
 - [X] baixar os assets
 - [X] baixar o pygame e entender ele
+- [X] colocar o bg na tela
 - [ ] criar o personagem
     - [ ] sistema de movimentacao
         - [ ] animacao de movimentacao
