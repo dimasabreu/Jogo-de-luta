@@ -6,12 +6,12 @@
 - [X] criar o personagem
     - [X] sistema de movimentacao
         - [ ] animacao de movimentacao
-    - [ ] sistema de combate
+    - [X] sistema de combate
         - [ ] animacao de combate
-    - [ ] sistema de receber/dar dano
+    - [X] sistema de receber/dar dano
         - [ ] animacao do dano
-- [ ] criar a ui
-    - [ ] mostrar a vida na ui  
+- [X] criar a ui
+    - [X] mostrar a vida na ui  
     - [ ] mostrar quem ganhou o round
     - [ ] demonstrar o tempo do round
     - [ ] quantidade de vitorias 
