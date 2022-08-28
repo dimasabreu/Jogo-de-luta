@@ -1,7 +1,10 @@
 from cmath import rect
 import pygame
 from fighter import Fighter
+from pygame import mixer
 
+# iniciando o mixer
+mixer.init()
 # iniciando o loop do pygame
 pygame.init()
 
@@ -38,6 +41,14 @@ WIZZARD_SCALE = 3
 WIZZARD_OFFSET = [112, 107]
 WIZZARD_DATA = [WIZZARD_SIZE, WIZZARD_SCALE, WIZZARD_OFFSET]
 
+# carregando a musica e os sons 
+pygame.mixer.music.load("assets/audio/assets_audio_music.mp3")
+pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.play(-1, 0.0, 5000)
+sword_fx = pygame.mixer.Sound("assets/audio/assets_audio_sword.wav")
+sword_fx.set_volume(0.1)
+magic_fx = pygame.mixer.Sound("assets/audio/assets_audio_magic.wav")
+magic_fx.set_volume(0.2)
 
 # carregando o background
 bg_image = pygame.image.load("assets/images/background/background.jpg").convert_alpha()
@@ -77,8 +88,8 @@ def draw_health_bar(health, x, y):
     pygame.draw.rect(screen, RED, (x, y, 400 * ratio, 20))
 
 # criando os 2 jogadores
-figter_1 = Fighter(1, 250, 408, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMATION_STEPS)
-figter_2 = Fighter(2, 900, 408, True, WIZZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS)
+figter_1 = Fighter(1, 250, 408, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMATION_STEPS, sword_fx)
+figter_2 = Fighter(2, 900, 408, True, WIZZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS, magic_fx)
 
 
 # loop do jogo
@@ -108,7 +119,7 @@ while run:
 
         # atualizando o contador do timer
         if (pygame.time.get_ticks() - last_count_update) >= 1000:
-            intro_count -= 3 # debug de timer original eh 1
+            intro_count -= 1
             last_count_update = pygame.time.get_ticks()
             
 
@@ -138,8 +149,8 @@ while run:
         if pygame.time.get_ticks() - round_over_time > ROUND_OVER_COOLDOWN:
             round_over = False
             intro_count = 3
-            figter_1 = Fighter(1, 250, 408, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMATION_STEPS)
-            figter_2 = Fighter(2, 900, 408, True, WIZZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS)
+            figter_1 = Fighter(1, 250, 408, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMATION_STEPS, sword_fx)
+            figter_2 = Fighter(2, 900, 408, True, WIZZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS, magic_fx)
 
     # comando de evento
     for event in pygame.event.get():
