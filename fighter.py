@@ -16,6 +16,7 @@ class Fighter():
         self.update_time = pygame.time.get_ticks()
         self.rect = pygame.Rect((x, y, 80, 180))
         self.vel_y = 0
+        self.running = False
         self.jump = False
         self.attacking = False
         self.attack_type = 0
@@ -38,6 +39,7 @@ class Fighter():
         GRAVITY = 2
         dx = 0
         dy = 0
+        self.running = False
 
         # pegando as teclas apertadas
         key = pygame.key.get_pressed()
@@ -46,10 +48,12 @@ class Fighter():
             # movendo para esquerda
             if key [pygame.K_a]:
                 dx = -SPEED
+                self.running = True
 
             # movendo para direita
             if key [pygame.K_d]:
                 dx = SPEED
+                self.running = True
 
             # criando o pulo
             if key[pygame.K_w] and self.jump == False:
@@ -91,6 +95,12 @@ class Fighter():
     
     # atualizando as animações
     def update(self):
+        # checando qual acao o jogador esta fazendo
+        if self.running == True:
+            self.update_action(1)
+        else:
+            self.update_action(0)
+
         animation_cooldown = 50
         # atualizando a imagem
         self.image = self.animation_list[self.action][self.frame_index]
@@ -111,6 +121,14 @@ class Fighter():
             target.health += 10
 
         pygame.draw.rect(surface, (0, 255, 0), attacking_rect)
+
+
+    def update_action(self, new_action):
+        # checando se a nova acao eh diferente da antiga
+        if new_action != self.action:
+            self.action = new_action
+            self.frame_index = 0
+            self.update_time = pygame.time.get_ticks()
 
     # definindo o desenho do player
     def draw(self, surface):
