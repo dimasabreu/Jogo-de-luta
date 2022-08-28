@@ -14,7 +14,7 @@
     - [X] mostrar a vida na ui  
     - [X] mostrar quem ganhou o round
     - [X] quantidade de vitorias 
-    - [ ] demonstrar o tempo do round
+    - [X] demonstrar o tempo do round
 - [ ] criar uma ia para o player inimigo
 - [ ] multiplayer online
 

@@ -58,11 +58,13 @@ class Fighter():
                 if key [pygame.K_a]:
                     dx = -SPEED
                     self.running = True
+                    self.flip = True
 
                 # movendo para direita
                 if key [pygame.K_d]:
                     dx = SPEED
                     self.running = True
+                    self.flip = False
 
                 # criando o pulo
                 if key[pygame.K_w] and self.jump == False:
@@ -84,12 +86,14 @@ class Fighter():
                 if key [pygame.K_LEFT]:
                     dx = -SPEED
                     self.running = True
+                    self.flip = True
 
                 # movendo para direita
                 if key [pygame.K_RIGHT]:
                     dx = SPEED
                     self.running = True
-
+                    self.flip = False
+                    
                 # criando o pulo
                 if key[pygame.K_UP] and self.jump == False:
                     self.vel_y = -30
@@ -118,12 +122,6 @@ class Fighter():
             self.vel_y = 0
             self.jump = False
             dy = screen_height - 132 - self.rect.bottom
-
-        # tendo certeza que os jogadores estao se olhando
-        if target.rect.centerx > self.rect.centerx:
-            self.flip = False
-        else:
-            self.flip = True
 
         # cooldown dos ataques
         if self.attack_cooldown > 0:
