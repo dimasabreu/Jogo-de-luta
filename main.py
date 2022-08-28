@@ -1,3 +1,4 @@
+from cmath import rect
 import pygame
 from fighter import Fighter
 
@@ -20,9 +21,27 @@ GREY = (140, 139, 132)
 WHITE = (255, 255, 255)
 GREEN = (52, 184, 0)
 
+# definindo as variaveis dos players
+WARRIOR_SIZE = 162
+WARRIOR_SCALE = 4
+WARRIOR_OFFSET = [72, 56]
+WARRIOR_DATA = [WARRIOR_SIZE, WARRIOR_SCALE, WARRIOR_OFFSET]
+WIZZARD_SIZE = 250
+WIZZARD_SCALE = 3
+WIZZARD_OFFSET = [112, 107]
+WIZZARD_DATA = [WIZZARD_SIZE, WIZZARD_SCALE, WIZZARD_OFFSET]
+
+
 # carregando o background
 bg_image = pygame.image.load("assets/images/background/background.jpg").convert_alpha()
 
+# carregando as sprites sheets
+warrior_sheet = pygame.image.load("assets/images/warrior/warrior.png").convert_alpha()
+wizard_sheet = pygame.image.load("assets/images/wizard/wizard.png").convert_alpha()
+
+# definindo o numero de sprites em cada animacao
+WARRIOR_ANIMATION_STEPS = [10, 8, 1, 7, 7, 3, 7]
+WIZARD_ANIMATION_STEPS = [8, 8, 1, 8, 8, 3, 7]
 
 # func para colocar o bg na tela
 def draw_bg():
@@ -39,8 +58,8 @@ def draw_health_bar(health, x, y):
     pygame.draw.rect(screen, RED, (x, y, 400 * ratio, 20))
 
 # criando os 2 jogadores
-figter_1 = Fighter(250, 408)
-figter_2 = Fighter(900, 408)
+figter_1 = Fighter(250, 408, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMATION_STEPS)
+figter_2 = Fighter(900, 408, True, WIZZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS)
 
 
 # loop do jogo

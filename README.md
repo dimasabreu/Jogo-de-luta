@@ -5,7 +5,7 @@
 - [X] colocar o bg na tela
 - [X] criar o personagem
     - [X] sistema de movimentacao
-        - [ ] animacao de movimentacao
+        - [X] animacao de movimentacao
     - [X] sistema de combate
         - [ ] animacao de combate
     - [X] sistema de receber/dar dano
