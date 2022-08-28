@@ -77,6 +77,10 @@ while run:
 
     # implementando a movimentação
     figter_1.move(SCREEN_WIDHT, SCREEN_HEIGHT, screen, figter_2)
+
+    # atualizando as imagens
+    figter_1.update()
+    figter_2.update()
     
     
     # desenhando os players na tela 
