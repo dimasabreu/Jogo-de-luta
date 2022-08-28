@@ -20,7 +20,10 @@ class Fighter():
         self.jump = False
         self.attacking = False
         self.attack_type = 0
+        self.attack_cooldown = 0
+        self.hit = False
         self.health = 0
+        self.alive = True
 
     # func para pegar as sprites
     def load_images(self, sprite_sheet, animation_steps):
@@ -90,6 +93,10 @@ class Fighter():
         else:
             self.flip = True
 
+        # cooldown dos ataques
+        if self.attack_cooldown > 0:
+            self.attack_cooldown -= 1
+
         # atualizando a posição do player
         self.rect.x += dx
         self.rect.y += dy
@@ -97,7 +104,13 @@ class Fighter():
     # atualizando as animações
     def update(self):
         # checando qual acao o jogador esta fazendo
-        if self.attacking == True:
+        if self.health >= 100:
+            self.health = 100
+            self.alive = False
+            self.update_action(6)
+        elif self.hit == True:
+            self.update_action(5)
+        elif self.attacking == True:
             if self.attack_type == 1:
                 self.update_action(3)
             elif self.attack_type == 2:
@@ -118,20 +131,31 @@ class Fighter():
             self.update_time = pygame.time.get_ticks()
         # checando se a animacao acabou
         if self.frame_index >= len(self.animation_list[self.action]):
-            self.frame_index = 0
-            # checando se o ataque foi concluido
-            if self.action == 3 or self.action == 4:
-                self.attacking = False
-
+            # checando se o player morreu
+            if self.alive == False:
+                self.frame_index = len(self.animation_list[self.action]) - 1
+            else:
+                self.frame_index = 0
+                # checando se o ataque foi concluido
+                if self.action == 3 or self.action == 4:
+                    self.attacking = False
+                    self.attack_cooldown = 20
+                # checando se o player foi atingido
+                if self.action == 5:
+                    self.hit = False
+                    # se o player estiver no meio do ataque ele para
+                    self.attacking = False
+                    self.attack_cooldown = 20
 
     # criando o metodo de ataque
     def attack(self, surface, target):
-        self.attacking = True
-        attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
-        if attacking_rect.colliderect(target.rect):
-            target.health += 10
-
-        pygame.draw.rect(surface, (0, 255, 0), attacking_rect)
+        if self.attack_cooldown == 0:
+            self.attacking = True
+            attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
+            if attacking_rect.colliderect(target.rect):
+                target.health += 10
+                target.hit = True
+            pygame.draw.rect(surface, (0, 255, 0), attacking_rect)
 
 
     def update_action(self, new_action):

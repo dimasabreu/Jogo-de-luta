@@ -7,9 +7,9 @@
     - [X] sistema de movimentacao
         - [X] animacao de movimentacao
     - [X] sistema de combate
-        - [ ] animacao de combate
+        - [X] animacao de combate
     - [X] sistema de receber/dar dano
-        - [ ] animacao do dano
+        - [X] animacao do dano
 - [X] criar a ui
     - [X] mostrar a vida na ui  
     - [ ] mostrar quem ganhou o round
