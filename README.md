@@ -12,9 +12,9 @@
         - [X] animacao do dano
 - [X] criar a ui
     - [X] mostrar a vida na ui  
-    - [ ] mostrar quem ganhou o round
+    - [X] mostrar quem ganhou o round
     - [ ] demonstrar o tempo do round
-    - [ ] quantidade de vitorias 
+    - [X] quantidade de vitorias 
 - [ ] criar uma ia para o player inimigo
 - [ ] multiplayer online
 

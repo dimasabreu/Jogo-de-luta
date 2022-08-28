@@ -21,6 +21,13 @@ GREY = (140, 139, 132)
 WHITE = (255, 255, 255)
 GREEN = (52, 184, 0)
 
+# definindo as variaveis do jogo
+intro_count = 3
+last_count_update = pygame.time.get_ticks()
+score = [0, 0] # player scores [p1, p2]
+round_over = False
+ROUND_OVER_COOLDOWN = 2000
+
 # definindo as variaveis dos players
 WARRIOR_SIZE = 162
 WARRIOR_SCALE = 4
@@ -39,9 +46,21 @@ bg_image = pygame.image.load("assets/images/background/background.jpg").convert_
 warrior_sheet = pygame.image.load("assets/images/warrior/warrior.png").convert_alpha()
 wizard_sheet = pygame.image.load("assets/images/wizard/wizard.png").convert_alpha()
 
+# carregando a img da vitoria
+victory_img = pygame.image.load("assets/images/icons/victory.png").convert_alpha()
+
 # definindo o numero de sprites em cada animacao
 WARRIOR_ANIMATION_STEPS = [10, 8, 1, 7, 7, 3, 7]
 WIZARD_ANIMATION_STEPS = [8, 8, 1, 8, 8, 3, 7]
+
+# definindo as fontes
+count_font = pygame.font.Font("assets/fonts/turok.ttf", 120)
+score_font = pygame.font.Font("assets/fonts/turok.ttf", 30)
+
+# fonte para o  texto
+def draw_text(text, font, text_col, x, y):
+    img = font.render(text, True, text_col)
+    screen.blit(img, (x, y))
 
 # func para colocar o bg na tela
 def draw_bg():
@@ -58,8 +77,8 @@ def draw_health_bar(health, x, y):
     pygame.draw.rect(screen, RED, (x, y, 400 * ratio, 20))
 
 # criando os 2 jogadores
-figter_1 = Fighter(250, 408, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMATION_STEPS)
-figter_2 = Fighter(900, 408, True, WIZZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS)
+figter_1 = Fighter(1, 250, 408, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMATION_STEPS)
+figter_2 = Fighter(2, 900, 408, True, WIZZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS)
 
 
 # loop do jogo
@@ -74,9 +93,24 @@ while run:
     # mostrando a barra de vida na tela
     draw_health_bar(figter_1.health, 20, 20)
     draw_health_bar(figter_2.health, 860, 20)
+    # mostrando o score
+    draw_text("P1: " + str(score[0]), score_font, RED, 16, 40)
+    draw_text("P2: " + str(score[1]), score_font, RED, 856, 40)
 
-    # implementando a movimentação
-    figter_1.move(SCREEN_WIDHT, SCREEN_HEIGHT, screen, figter_2)
+    # colocando o timer no jogo
+    if intro_count <= 0:
+        # implementando a movimentação
+        figter_1.move(SCREEN_WIDHT, SCREEN_HEIGHT, screen, figter_2, round_over)
+        figter_2.move(SCREEN_WIDHT, SCREEN_HEIGHT, screen, figter_1, round_over)
+    else:
+        # coloando o timer na tela
+        draw_text(str(intro_count), count_font, RED, SCREEN_WIDHT / 2, SCREEN_HEIGHT / 6)
+
+        # atualizando o contador do timer
+        if (pygame.time.get_ticks() - last_count_update) >= 1000:
+            intro_count -= 3 # debug de timer original eh 1
+            last_count_update = pygame.time.get_ticks()
+            
 
     # atualizando as imagens
     figter_1.update()
@@ -86,6 +120,26 @@ while run:
     # desenhando os players na tela 
     figter_1.draw(screen)
     figter_2.draw(screen)
+
+    # checando quem perdeu
+    if round_over == False:
+        if figter_1.alive == False:
+            score[1] += 1
+            round_over = True
+            round_over_time = pygame.time.get_ticks()
+        elif figter_2.alive == False:
+            score[0] += 1
+            round_over = True
+            round_over_time = pygame.time.get_ticks()
+    else:
+        # colocando a img de vitoria na tela
+        screen.blit(victory_img, (500, 150))
+        # resetando o jogo caso o tempo acabe
+        if pygame.time.get_ticks() - round_over_time > ROUND_OVER_COOLDOWN:
+            round_over = False
+            intro_count = 3
+            figter_1 = Fighter(1, 250, 408, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMATION_STEPS)
+            figter_2 = Fighter(2, 900, 408, True, WIZZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS)
 
     # comando de evento
     for event in pygame.event.get():

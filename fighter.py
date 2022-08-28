@@ -4,7 +4,8 @@ import pygame
 class Fighter():
 
     # player constructor
-    def __init__(self, x, y, flip, data, sprite_sheet, animation_steps):
+    def __init__(self, player, x, y, flip, data, sprite_sheet, animation_steps):
+        self.player = player
         self.size = data[0]
         self.image_scale = data[1]
         self.offset = data[2]
@@ -22,7 +23,7 @@ class Fighter():
         self.attack_type = 0
         self.attack_cooldown = 0
         self.hit = False
-        self.health = 0
+        self.health = 90 # debug de vida e original eh 0
         self.alive = True
 
     # func para pegar as sprites
@@ -37,7 +38,7 @@ class Fighter():
         return animation_list
 
     # func de movimentacao
-    def move(self, screen_width, screen_height, surface, target):
+    def move(self, screen_width, screen_height, surface, target, round_over):
         SPEED = 10
         GRAVITY = 2
         dx = 0
@@ -47,31 +48,61 @@ class Fighter():
 
         # pegando as teclas apertadas
         key = pygame.key.get_pressed()
+
         # So pode fazer alguma coisa caso nao esteja atacando 
-        if self.attacking == False:
-            # movendo para esquerda
-            if key [pygame.K_a]:
-                dx = -SPEED
-                self.running = True
+        if self.attacking == False and self.alive == True and round_over == False:
+            # checando os controles do player 1
+            if self.player == 1:
+                # movendo para esquerda
+                if key [pygame.K_a]:
+                    dx = -SPEED
+                    self.running = True
 
-            # movendo para direita
-            if key [pygame.K_d]:
-                dx = SPEED
-                self.running = True
+                # movendo para direita
+                if key [pygame.K_d]:
+                    dx = SPEED
+                    self.running = True
 
-            # criando o pulo
-            if key[pygame.K_w] and self.jump == False:
-                self.vel_y = -30
-                self.jump = True
+                # criando o pulo
+                if key[pygame.K_w] and self.jump == False:
+                    self.vel_y = -30
+                    self.jump = True
 
-            # criando os ataques 
-            if key[pygame.K_r] or key[pygame.K_t]:
-                self.attack(surface, target)
-                # determinando qual ataque eh
-                if key[pygame.K_r]:
-                    self.attack_type = 1
-                if key[pygame.K_t]:
-                    self.attack_type = 2
+                # criando os ataques 
+                if key[pygame.K_r] or key[pygame.K_t]:
+                    self.attack(surface, target)
+                    # determinando qual ataque eh
+                    if key[pygame.K_r]:
+                        self.attack_type = 1
+                    if key[pygame.K_t]:
+                        self.attack_type = 2
+            
+            # checando os controles do player 2
+            if self.player == 2:
+                # movendo para esquerda
+                if key [pygame.K_LEFT]:
+                    dx = -SPEED
+                    self.running = True
+
+                # movendo para direita
+                if key [pygame.K_RIGHT]:
+                    dx = SPEED
+                    self.running = True
+
+                # criando o pulo
+                if key[pygame.K_UP] and self.jump == False:
+                    self.vel_y = -30
+                    self.jump = True
+
+                # criando os ataques 
+                if key[pygame.K_KP1] or key[pygame.K_KP2]:
+                    self.attack(surface, target)
+                    # determinando qual ataque eh
+                    if key[pygame.K_KP1]:
+                        self.attack_type = 1
+                    if key[pygame.K_KP2]:
+                        self.attack_type = 2
+
 
         # aplicando a gravidade
         self.vel_y += GRAVITY
