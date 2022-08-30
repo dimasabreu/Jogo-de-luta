@@ -1,4 +1,3 @@
-from cmath import rect
 import pygame
 from fighter import Fighter
 from pygame import mixer
