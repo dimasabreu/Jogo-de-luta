@@ -1,20 +1,24 @@
 ## JOGO DE LUTA
 
-- [X] baixar os assets
-- [X] baixar o pygame e entender ele
-- [X] colocar o bg na tela
-- [X] criar o personagem
-    - [X] sistema de movimentacao
-        - [X] animacao de movimentacao
-    - [X] sistema de combate
-        - [X] animacao de combate
-    - [X] sistema de receber/dar dano
-        - [X] animacao do dano
-- [X] criar a ui
-    - [X] mostrar a vida na ui  
-    - [X] mostrar quem ganhou o round
-    - [X] quantidade de vitorias 
-    - [X] demonstrar o tempo do round
-- [ ] criar uma ia para o player inimigo
-- [ ] multiplayer online
+Jogo multiplayer local
+
+Comandos: 
+
+- Movimentação player 1: <br>
+A - Esquerda<br>
+D - Direita<br>
+W - Pula<br>
+R - Ataque 1<br>
+T - Ataque 2<br>
+
+- Movimentação player 2:<br>
+Left Arrow - Esquerda<br>
+Right Arrow - Direita<br>
+Up Arrow - Pula<br>
+Num1 - Ataque 1<br>
+Num2 - Ataque 2<br>
+
+
+
+https://user-images.githubusercontent.com/95443404/187548921-1a8e5e92-a939-497e-be26-7cdb48a3d8d6.mp4
 
